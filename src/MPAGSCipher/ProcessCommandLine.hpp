@@ -8,6 +8,8 @@ bool processCommandLine(
     const std::vector<std::string>& args, 
     bool& helpRequested, 
     bool& versionRequested,
+    std::string& mode,
+    unsigned int& key,
     std::string& inputFile,
     std::string& outputFile
 );

@@ -15,10 +15,12 @@ int main(int argc, char* argv[])
     // Options that might be set by the command-line arguments
     bool helpRequested{false};
     bool versionRequested{false};
+    unsigned int key{0}; // don't shift at all by default
+    std::string mode{"e"}; // set the default mode to encrypt
     std::string inputFile{""};
     std::string outputFile{""};
 
-    if (!processCommandLine(cmdLineArgs, helpRequested, versionRequested, inputFile, outputFile)) return 1;
+    if (!processCommandLine(cmdLineArgs, helpRequested, versionRequested, mode, key, inputFile, outputFile)) return 1;
 
     // Process command line arguments - ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
@@ -36,6 +38,8 @@ int main(int argc, char* argv[])
             << "                   Stdin will be used if not supplied\n\n"
             << "  -o FILE          Write processed text to FILE\n"
             << "                   Stdout will be used if not supplied\n\n"
+            << "  --mode MODE      One of 'e' or 'd'. Default is encrypt\n\n"
+            << "  -k KEY           Key to shift Caesar cipher. Default is 0\n\n"
             << std::endl;
         // Help requires no further action, so return from main
         // with 0 used to indicate success
@@ -49,6 +53,10 @@ int main(int argc, char* argv[])
         std::cout << "0.1.0" << std::endl;
         return 0;
     }
+
+    std::cout << mode << std::endl;
+    std::cout << "Key: " << key << std::endl;
+    return 0;
 
     // Initialise variables
     char inputChar{'x'};
