@@ -1,6 +1,7 @@
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
 
+#include <fstream>
 #include <cctype>
 #include <iostream>
 #include <string>
@@ -56,24 +57,33 @@ int main(int argc, char* argv[])
     // Read in user input from stdin/file
     // Warn that input file option not yet implemented
     if (!inputFile.empty()) {
-        std::cerr << "[warning] input from file ('" << inputFile
-                  << "') not implemented yet, using stdin\n";
+        std::ifstream inFile {inputFile};
+        if (!inFile.good()) {
+            std::cerr << "[error] failed to open the input file\n";
+            return 1;
+        }
+        while(inFile >> inputChar) {
+            inputText += transformChar(inputChar);
+        }
+    } else {
+        // loop over each character from user input
+        while (std::cin >> inputChar) {
+            inputText += transformChar(inputChar);
+        }
     }
-
-    // loop over each character from user input
-    while (std::cin >> inputChar) {
-        inputText += transformChar(inputChar);
-    }
-
-    // Print out the transliterated text
 
     // Warn that output file option not yet implemented
     if (!outputFile.empty()) {
-        std::cerr << "[warning] output to file ('" << outputFile
-                  << "') not implemented yet, using stdout\n";
+        std::ofstream outFile {outputFile};
+        if (!outFile.good()) {
+            std::cerr << "[error] failed to open output file for writing\n";
+            return 1;
+        }
+        outFile << inputText;
+    } else {
+        // Print out the transliterated text
+        std::cout << inputText << std::endl;
     }
-
-    std::cout << inputText << std::endl;
 
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions
