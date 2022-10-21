@@ -4,7 +4,7 @@
 *.swp
 
 # Ignore compiled executables
-outputs/**
+assets/**
 
 # Mac Filesystem
 .DS_Store?
