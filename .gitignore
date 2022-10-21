@@ -3,6 +3,9 @@
 *~
 *.swp
 
+# Ignore compiled executables
+outputs/**
+
 # Mac Filesystem
 .DS_Store?
 
