@@ -1,5 +1,6 @@
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
+#include "RunCaesarCipher.hpp"
 
 #include <fstream>
 #include <cctype>
@@ -54,10 +55,6 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    std::cout << mode << std::endl;
-    std::cout << "Key: " << key << std::endl;
-    return 0;
-
     // Initialise variables
     char inputChar{'x'};
     std::string inputText;
@@ -79,6 +76,9 @@ int main(int argc, char* argv[])
             inputText += transformChar(inputChar);
         }
     }
+
+    const bool encrypt {(mode == "e" ? true : false)};
+    inputText = runCaesarCipher(inputText, key, encrypt);
 
     // Warn that output file option not yet implemented
     if (!outputFile.empty()) {

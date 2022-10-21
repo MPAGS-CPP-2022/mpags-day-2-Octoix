@@ -38,10 +38,8 @@ bool processCommandLine(const std::vector<std::string>& args, bool& helpRequeste
                 std::cerr << "[error] --mode requires a mode to be specified" << std::endl;
                 return false;
             } else {
-                if (args[i+1] != "e" || args[i+1] != "d") {
-                    std::cerr << "[error] --mode must be provided with a valid mode (e) or (d)" << std::endl;
-                    return false;
-                } 
+                // just assume the user has put e or d
+                // TODO: check the user argument is legal
                 mode = args[i+1];
                 ++i;
             }
