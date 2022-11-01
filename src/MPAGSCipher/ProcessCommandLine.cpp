@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-bool processCommandLine(const std::vector<std::string>& args, bool& helpRequested, bool& versionRequested, std::string& inputFile, std::string& outputFile) {
+bool processCommandLine(const std::vector<std::string>& args, bool& helpRequested, bool& versionRequested, std::string& mode, unsigned int& key, std::string& inputFile, std::string& outputFile) {
     const std::size_t nArgs{args.size()};
     for (std::size_t i{1}; i < nArgs; ++i) {
         if (args[i] == "-h" || args[i] == "--help") {
@@ -30,6 +30,26 @@ bool processCommandLine(const std::vector<std::string>& args, bool& helpRequeste
             } else {
                 // Got filename, so assign value and advance past it
                 outputFile = args[i + 1];
+                ++i;
+            }
+        } else if (args[i] == "--mode") {
+            // Handle the encrypt/decrypt option
+            if (i == nArgs -1) {
+                std::cerr << "[error] --mode requires a mode to be specified" << std::endl;
+                return false;
+            } else {
+                // just assume the user has put e or d
+                // TODO: check the user argument is legal
+                mode = args[i+1];
+                ++i;
+            }
+        } else if (args[i] == "-k") {
+            // Handle the shift length (key)
+            if (i == nArgs -1) {
+                std::cerr << "[error] -k requires a key to be specified" << std::endl;
+                return false;
+            } else {
+                key = std::stoul(args[i+1]);
                 ++i;
             }
         } else {
